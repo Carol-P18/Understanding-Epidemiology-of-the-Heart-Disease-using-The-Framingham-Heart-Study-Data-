@@ -1,0 +1,129 @@
+---
+title: "615 Pre_EDA"
+group: "Akatsuki"
+output: html_document
+---
+## Load Package & Read the Data
+```{r}
+library(tidyverse)
+library(scales) 
+library(readr)
+
+library(dplyr)
+
+library(stats)
+
+library(factoextra) # clustering algorithms & visualization
+
+library(corrplot)
+
+library(graphics)
+
+library(cluster)    # clustering algorithms
+
+frm <- read.csv("frmgham2.csv", header = T)
+frmgham_k <- read_csv('framingham.csv')
+frm_newk <-read_csv('Newframingham.csv')
+
+problems(frm)
+problems(frmgham_k)
+problems(frm_newk)
+```
+```{r}
+
+
+# Use library Cluster
+
+##When we cluster observations, we want observations in the same group to be similar and observations in different groups to be dissimilar.
+##Because there isn’t a response variable
+#REMOVE RESPONSE VARIABLES!!!!
+
+#kmeans clustering
+#set.seed(20)
+#irisCluster <- kmeans(iris[, 3:4], 3, nstart = 16)
+#irisCluster
+#K-means clustering with 3 clusters of sizes 46, 54, 5
+
+#frm_ktrain <- read_csv('frmgham2.csv')
+#frm_NCBI <- read.csv('framingham.csv')
+
+#set.seed(20)
+#clusters <- kmeans(data14[,2:3], 5)
+
+# Save the cluster number in the dataset as column 'Borough'
+#data14$Borough <- as.factor(clusters$cluster)
+
+frm_NCBI <-na.omit(frm_NCBI)
+#To remove any missing value that might be present in the data, type this:
+
+#Scale
+frm_NCBI <-scale(frm_NCBI)
+head(frm_NCBI)
+
+
+#Computing k-means clustering in R
+#We can compute k-means in R with the kmeans function. Here will group the data into two clusters (centers = 2). The kmeans function also has an nstart option that attempts multiple initial configurations and reports on the best one. For example, adding nstart = 25 will generate 25 initial configurations. This approach is often recommended.
+
+
+frm_NCBIcluster <-kmeans(frm_NCBI, centers = 8, nstart=25)
+str(frm_NCBIcluster)
+#set.seed(20)
+#frm_NCBIcluster <-kmeans(frm_NCBI[, 2:16], nstart =16)
+
+#The output
+#cluster: A vector of integers (from 1:k) indicating the cluster to which each point is allocated.
+#centers: A matrix of cluster centers.
+#totss: The total sum of squares.
+#withinss: Vector of within-cluster sum of squares, one component per cluster.
+#tot.withinss: Total within-cluster sum of squares, i.e. sum(withinss).
+#betweenss: The between-cluster sum of squares, i.e. $totss-tot.withinss$.
+#size: The number of points in each cluster.
+
+#We can also view our results by using fviz_cluster
+#If there are more than two dimensions (variables) fviz_cluster will perform principal component analysis (PCA) and plot the data points according to the first two principal components that explain the majority of the variance
+
+#fviz_cluster(k2, data = df)
+
+fviz_cluster(frm_NCBIcluster, data=frm_NCBI)
+
+set.seed(123)
+final <- kmeans(frm_NCBI, 8, nstart = 25)
+print(final)
+
+fviz_cluster(final, data = frm_NCBI)
+
+#
+```
+
+```{r}
+frm_newk <-na.omit(frm_newk)
+frm_newk <-scale(frm_newk)
+head(frm_newk)
+
+##frm_NCBIcluster <-kmeans(frm_NCBI, centers = 8, nstart=25)
+#str(frm_NCBIcluster)
+
+frm_newkcluster <-kmeans(frm_newk, centers = 3, nstart=25)
+str(frm_newkcluster)
+
+fviz_cluster(frm_newkcluster, data=frm_newk)
+
+set.seed(123)
+final <- kmeans(frm_newk, 3, nstart = 25)
+print(final)
+
+fviz_cluster(final, data = frm_newk)
+
+
+
+
+
+```
+```{r}
+
+
+#ggplot(frm_ktrain, aes(AGE, CIGPDAY)) + geom_point(aes(color= HEARTRTE)) + #coord_polar()
+
+#education and cigsperday
+                          
+```
