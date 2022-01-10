@@ -1,10 +1,11 @@
+
 # Understanding-Epidemiology-of-the-Heart-Disease-using-The-Framingham-Heart-Study-Data-
 Understanding Epidemiology of the Heart Disease(Data mining on The Framingham Heart study dataset) and predicting the risk of developing cardiovascular heart disease in ten years using the  Framingham risk score.
 
 # Data mining on Framingham Heart study dataset
 The Framingham Heart Study is one of the longest ongoing cardiovascular cohort study in the world. It started in 1948 and the initial number of adult subjects was 5,209. The study is now its third generation and was conducted on the inhabitants of the city of Framingham Massachusetts. The results from the study have been used to better understand the epidemiology hypertensive or arteriosclerotic cardiovascular disease.
 The idea of this project is to perform comprehensive data analysis on the Framingham Heart Study Dataset where we verify the previously made inferences while also making new inferences from this data by using different Statistical Methods such as PCA and Logistic Regression
-![image](https://user-images.githubusercontent.com/43420933/148837350-23cc6452-7621-4119-9d75-418e1bc96e3a.png)
+
 
 
 # Tasks for the data analysis
