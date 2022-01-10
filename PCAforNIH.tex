@@ -1,0 +1,724 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={615 Pre\_EDA},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{615 Pre\_EDA}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\subsection{Load Package \& Read the
+Data}\label{load-package-read-the-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.2.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## √ ggplot2 3.0.0     √ purrr   0.2.5
+## √ tibble  1.4.2     √ dplyr   0.7.6
+## √ tidyr   0.8.1     √ stringr 1.3.1
+## √ readr   1.1.1     √ forcats 0.3.0
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(scales) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'scales'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     discard
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:readr':
+## 
+##     col_factor
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(readr)}
+
+\KeywordTok{library}\NormalTok{(dplyr)}
+
+\KeywordTok{library}\NormalTok{(stats)}
+
+\KeywordTok{library}\NormalTok{(factoextra) }\CommentTok{# clustering algorithms & visualization}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Welcome! Related Books: `Practical Guide To Cluster Analysis in R` at https://goo.gl/13EFCZ
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(corrplot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## corrplot 0.84 loaded
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(graphics)}
+
+\KeywordTok{library}\NormalTok{(cluster)    }\CommentTok{# clustering algorithms}
+
+\NormalTok{frm_NCBI <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{'framingham.csv'}\NormalTok{) }\CommentTok{#kaggles}
+\NormalTok{frm_ktrain <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{'frmgham2.csv'}\NormalTok{) }\CommentTok{#NIH}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   .default = col_integer(),
+##   SYSBP = col_double(),
+##   DIABP = col_double(),
+##   BMI = col_double()
+## )
+\end{verbatim}
+
+\begin{verbatim}
+## See spec(...) for full column specifications.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{problems}\NormalTok{(frm_NCBI)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # tibble [0 x 4]
+## # ... with 4 variables: row <int>, col <int>, expected <chr>, actual <chr>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{problems}\NormalTok{(frm_ktrain)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # tibble [0 x 4]
+## # ... with 4 variables: row <int>, col <int>, expected <chr>, actual <chr>
+\end{verbatim}
+
+\subsection{Description of the
+Datasets}\label{description-of-the-datasets}
+
+The Framingham Heart Dataset The Framingham Heart Study is one of the
+longest ongoing cardiovascular cohort study in the world. It started in
+1948 and the initial number of adult subjects was 5,209. The study is
+now its third generation and was conducted on the inhabitants of the
+city of Framingham Massachusetts. The results from the study have been
+used to better understand the epidemiology hypertensive or
+arteriosclerotic cardiovascular disease. Prevailing knowledge/lifestyle
+factors pertaining to heart disease such as diet, exercise and common
+medications such as aspirin.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The following demographic risk factors were included in the Framingham
+  Heart Dataset:-
+\item
+  Sex: male or female:
+\item
+  Age: age of the patient:
+\item
+  Education: Different education Levels were coded 1 for some high
+  school, 2 for a high school diploma or GED, 3 for some College or
+  vocational school, and 4 for a college degree.
+\item
+  The data set also includes behavioral risk factors associated with
+  smoking CurrentSmoker: If the patient is a current smoker or not
+  CigsPerDay: The number of cigarettes that the person smoked on average
+  in one day.
+\item
+  Medical history risk factors: BPMeds: Whether or not the patient was
+  on blood pressure medication PrevalentStroke: Whether or not the
+  patient had previously had a stroke PrevalentHyp: Whether or not the
+  patient was hypertensive Diabetes: Whether or not the patient had
+  diabetes
+\item
+  Risk factors from the first physical examination of the patient:
+  TotChol: Total cholesterol levels SysBP: Systolic blood pressure
+  DiaBP: Diastolic blood pressure BMI: Body Mass Index HeartRate: Heart
+  rate Glucose: Glucose level TenYearCHD: 10 year risk of coronary heart
+  disease CHD(This extra feature or Variable was only included in the
+  Kaggle Dataset and not the NIH Dataset)
+\end{enumerate}
+
+\subsection{Principal Component Analysis
+(PCA)}\label{principal-component-analysis-pca}
+
+Description of the data exploration/analysis Principal Component
+Analysis (PCA) A multivariate Analysis begins with having several
+substantial correlated variables. In such an event, one can use a
+statistical analysis called Principal Component Analysis (PCA). PCA
+functions as a dimension-reduction tool that is often used to reduce a
+large set of variables to a small set that still contains most of the
+information in the large set. The smaller number of variables in the
+small set is called principal components. The PCAs are numbered
+1,2,3,4\ldots{}. The first PCA value generally accounts for as much of
+the variability in the data as possible, and each succeeding component
+accounts for as much of the remaining variability as possible.
+
+We did a PCA on The Framingham Heart Datasets that were both obtained
+from the NIH and Kaggles. Our reason for doing PCA was to find which
+variables were the most important in the entire dataset: Which variable
+contributed the most to disease risk all factors considered? After our
+PCA analysis, we identified that Total Cholestrol levels were the most
+important variable for this group of people. This can be explained by
+the diet and lifestyle choices. Foods high in bad cholestrol overall put
+you one at very high risk for cardiovascular diseases and heart health.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Principal component analysis(PCA) #NIH}
+
+\CommentTok{#frm_ktrain <- read.csv('framingham.csv')}
+\NormalTok{frm_ktrain <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{'frmgham2.csv'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   .default = col_integer(),
+##   SYSBP = col_double(),
+##   DIABP = col_double(),
+##   BMI = col_double()
+## )
+\end{verbatim}
+
+\begin{verbatim}
+## See spec(...) for full column specifications.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res.pca <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(}\KeywordTok{na.omit}\NormalTok{(frm_ktrain[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\OperatorTok{:}\DecValTok{6}\NormalTok{, }\DecValTok{8}\OperatorTok{:}\DecValTok{14}\NormalTok{)], }\DataTypeTok{center =}\NormalTok{ TRU, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)) }\CommentTok{#plot1}
+
+\KeywordTok{fviz_eig}\NormalTok{(res.pca) }\CommentTok{#plot one}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fviz_pca_biplot}\NormalTok{(res.pca) }\CommentTok{#plot two}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-2-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fviz_pca_ind}\NormalTok{(res.pca) }\CommentTok{#gives a scatter plot. very messy}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-2-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(res.pca) ##As you can see, principal components 1 and 2 have the highest standard deviation, use them}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Importance of components:
+##                            PC1     PC2     PC3      PC4     PC5     PC6
+## Standard deviation     45.4627 26.5103 22.7142 12.94025 11.4519 9.23998
+## Proportion of Variance  0.5548  0.1887  0.1385  0.04495  0.0352 0.02292
+## Cumulative Proportion   0.5548  0.7435  0.8820  0.92692  0.9621 0.98505
+##                            PC7     PC8     PC9    PC10    PC11    PC12
+## Standard deviation     6.35481 3.73987 1.01090 0.46518 0.25779 0.17051
+## Proportion of Variance 0.01084 0.00375 0.00027 0.00006 0.00002 0.00001
+## Cumulative Proportion  0.99589 0.99964 0.99992 0.99997 0.99999 1.00000
+\end{verbatim}
+
+\subsection{PCA Discussion}\label{pca-discussion}
+
+From our analysis of The Framingham Heart Dataset(NIH): The Histogram
+plot obtained from {[}fviz\_eig(res.pca){]} which plots the highest
+eigenvectors which are the highest PCA shows that PCA1 explains over
+60\% of the variance in the dataset and subsequently PCA2 explains over
+\%19 and PCA3 explaining the remaining PCAs explaining the remaining
+variance.
+
+Summary Importance of PCAs:The summary shows what we expected from the
+PCA plot1. PCA which is what we picked to explain the most important
+variables in the Dataset had the highest standard deviation, proportion
+of variance and cumulative proportion followed PCA2 which had half of
+these values.
+
+mportance of components: PC1 PC2 PC3 PC4 PC5 PC6 PC7 Standard deviation
+45.4627 26.5103 22.7142 12.94025 11.4519 9.23998 6.35481 Proportion of
+Variance 0.5548 0.1887 0.1385 0.04495 0.0352 0.02292 0.01084 Cumulative
+Proportion 0.5548 0.7435 0.8820 0.92692 0.9621 0.98505 0.99589 PC8 PC9
+PC10 PC11 PC12 Standard deviation 3.73987 1.01090 0.46518 0.25779
+0.17051 Proportion of Variance 0.00375 0.00027 0.00006 0.00002 0.00001
+Cumulative Proportion 0.99964 0.99992 0.99997 0.99999 1.00000
+
+Plot2: This plot shows: For PCA1: TotalChol is the most important
+variable to PCA1(Dim2).
+
+For PCA2:Glucose, SysBp, DiasBp, HeartRate, BMI and CIGPDAY were the
+most important variables in PCA2(Dim2)
+
+Our reason for doing PCA was to find which variables were the most
+important in the entire dataset: Which variable contributed the most to
+disease risk all factors considered? After our PCA analysis, we
+identified that Total Cholestrol levels were the most important variable
+for this group of people. This can be explained by the diet and
+lifestyle choices. Foods high in bad cholestrol overall put you one at
+very high risk for cardiovascular diseases and heart health.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#VARIATION PLOT for VARIANCE #NIH DATA}
+\CommentTok{#frm_ktrain <- read_csv('frmgham2.csv') #used this}
+\CommentTok{#frm_NCBI <- read.csv('framingham.csv') }
+\NormalTok{var <-}\StringTok{ }\KeywordTok{get_pca_var}\NormalTok{(res.pca)}
+\KeywordTok{corrplot}\NormalTok{(var}\OperatorTok{$}\NormalTok{cos2, }\DataTypeTok{is.corr=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{frm_ktrain.clean <-frm_ktrain }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate_at}\NormalTok{(}\KeywordTok{vars}\NormalTok{(SEX,CURSMOKE, DIABETES, BPMEDS, educ, PREVCHD, PREVAP, PREVMI, PREVSTRK, PREVHYP, PERIOD, DEATH, }
+\NormalTok{                                                  ANGINA, HOSPMI, MI_FCHD, ANYCHD, STROKE, CVD, HYPERTEN) , }\KeywordTok{funs}\NormalTok{(}\KeywordTok{factor}\NormalTok{(.)))}
+\KeywordTok{summary}\NormalTok{(frm_ktrain.clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      RANDID        SEX         TOTCHOL           AGE       
+##  Min.   :   2448   1:5022   Min.   :107.0   Min.   :32.00  
+##  1st Qu.:2474378   2:6605   1st Qu.:210.0   1st Qu.:48.00  
+##  Median :5006008            Median :238.0   Median :54.00  
+##  Mean   :5004741            Mean   :241.2   Mean   :54.79  
+##  3rd Qu.:7472730            3rd Qu.:268.0   3rd Qu.:62.00  
+##  Max.   :9999312            Max.   :696.0   Max.   :81.00  
+##                             NA's   :409                    
+##      SYSBP           DIABP        CURSMOKE    CIGPDAY           BMI       
+##  Min.   : 83.5   Min.   : 30.00   0:6598   Min.   : 0.00   Min.   :14.43  
+##  1st Qu.:120.0   1st Qu.: 75.00   1:5029   1st Qu.: 0.00   1st Qu.:23.09  
+##  Median :132.0   Median : 82.00            Median : 0.00   Median :25.48  
+##  Mean   :136.3   Mean   : 83.04            Mean   : 8.25   Mean   :25.88  
+##  3rd Qu.:149.0   3rd Qu.: 90.00            3rd Qu.:20.00   3rd Qu.:28.07  
+##  Max.   :295.0   Max.   :150.00            Max.   :90.00   Max.   :56.80  
+##                                            NA's   :79      NA's   :52     
+##  DIABETES   BPMEDS         HEARTRTE         GLUCOSE         educ     
+##  0:11097   0   :10090   Min.   : 37.00   Min.   : 39.00   1   :4690  
+##  1:  530   1   :  944   1st Qu.: 69.00   1st Qu.: 72.00   2   :3410  
+##            NA's:  593   Median : 75.00   Median : 80.00   3   :1885  
+##                         Mean   : 76.78   Mean   : 84.12   4   :1347  
+##                         3rd Qu.: 85.00   3rd Qu.: 89.00   NA's: 295  
+##                         Max.   :220.00   Max.   :478.00              
+##                         NA's   :6        NA's   :1440                
+##  PREVCHD   PREVAP    PREVMI    PREVSTRK  PREVHYP       TIME      PERIOD  
+##  0:10785   0:11000   0:11253   0:11475   0:6283   Min.   :   0   1:4434  
+##  1:  842   1:  627   1:  374   1:  152   1:5344   1st Qu.:   0   2:3930  
+##                                                   Median :2156   3:3263  
+##                                                   Mean   :1957           
+##                                                   3rd Qu.:4252           
+##                                                   Max.   :4854           
+##                                                                          
+##       HDLC             LDLC       DEATH    ANGINA   HOSPMI    MI_FCHD 
+##  Min.   : 10.00   Min.   : 20.0   0:8100   0:9725   0:10473   0:9839  
+##  1st Qu.: 39.00   1st Qu.:145.0   1:3527   1:1902   1: 1154   1:1788  
+##  Median : 48.00   Median :173.0                                       
+##  Mean   : 49.37   Mean   :176.5                                       
+##  3rd Qu.: 58.00   3rd Qu.:205.0                                       
+##  Max.   :189.00   Max.   :565.0                                       
+##  NA's   :8600     NA's   :8601                                        
+##  ANYCHD   STROKE    CVD      HYPERTEN     TIMEAP         TIMEMI    
+##  0:8469   0:10566   0:8728   0:2985   Min.   :   0   Min.   :   0  
+##  1:3158   1: 1061   1:2899   1:8642   1st Qu.:6224   1st Qu.:7212  
+##                                       Median :8766   Median :8766  
+##                                       Mean   :7242   Mean   :7594  
+##                                       3rd Qu.:8766   3rd Qu.:8766  
+##                                       Max.   :8766   Max.   :8766  
+##                                                                    
+##     TIMEMIFC       TIMECHD        TIMESTRK       TIMECVD    
+##  Min.   :   0   Min.   :   0   Min.   :   0   Min.   :   0  
+##  1st Qu.:7050   1st Qu.:5598   1st Qu.:7295   1st Qu.:6004  
+##  Median :8766   Median :8766   Median :8766   Median :8766  
+##  Mean   :7543   Mean   :7008   Mean   :7661   Mean   :7166  
+##  3rd Qu.:8766   3rd Qu.:8766   3rd Qu.:8766   3rd Qu.:8766  
+##  Max.   :8766   Max.   :8766   Max.   :8766   Max.   :8766  
+##                                                             
+##     TIMEDTH        TIMEHYP    
+##  Min.   :  26   Min.   :   0  
+##  1st Qu.:7798   1st Qu.:   0  
+##  Median :8766   Median :2429  
+##  Mean   :7854   Mean   :3599  
+##  3rd Qu.:8766   3rd Qu.:7329  
+##  Max.   :8766   Max.   :8766  
+## 
+\end{verbatim}
+
+\subsection{Discussion}\label{discussion}
+
+We plotted a different plot so as to better visualize the significance
+of these variables after a PCA analysis. The plot confirms our previous
+analysis and results where Total Cholestrol levels were identified to be
+the most important variable for this group of people in regards to PCA1.
+SysBP and Glucose captured the remaining variance in PCA2 while
+CIGPERDAY was significant in PCA3 and last of all HeartRate was
+significant in PCA4. As a rule of thumb, we go with the top two or three
+variables which capture most of the variance in the dataset. The reason
+for Total Cholestrol levels being high could be explained by dietary
+factors for this particular group: Foods high in bad cholestrol overall
+put you one at very high risk for cardiovascular diseases and heart
+health. It could be that the consume a diet high in cholestrol and do
+little to lower it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#my favorite one}
+\CommentTok{#Panel correlation for NIH Dataset(frm_ktrain)}
+\CommentTok{#gives correlation between variables}
+\NormalTok{panel.cor <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x, y, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{, }\DataTypeTok{prefix =} \StringTok{""}\NormalTok{, cex.cor, ...)}
+
+\NormalTok{\{}
+
+\NormalTok{  usr <-}\StringTok{ }\KeywordTok{par}\NormalTok{(}\StringTok{"usr"}\NormalTok{); }\KeywordTok{on.exit}\NormalTok{(}\KeywordTok{par}\NormalTok{(usr))}
+
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{usr =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\NormalTok{  r <-}\StringTok{ }\KeywordTok{abs}\NormalTok{(}\KeywordTok{cor}\NormalTok{(x, y))}
+
+\NormalTok{  txt <-}\StringTok{ }\KeywordTok{format}\NormalTok{(}\KeywordTok{c}\NormalTok{(r, }\FloatTok{0.123456789}\NormalTok{), }\DataTypeTok{digits =}\NormalTok{ digits)[}\DecValTok{1}\NormalTok{]}
+
+\NormalTok{  txt <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(prefix, txt)}
+
+  \ControlFlowTok{if}\NormalTok{(}\KeywordTok{missing}\NormalTok{(cex.cor)) cex.cor <-}\StringTok{ }\FloatTok{0.8}\OperatorTok{/}\KeywordTok{strwidth}\NormalTok{(txt)}
+
+  \KeywordTok{text}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.5}\NormalTok{, txt, }\DataTypeTok{cex =}\NormalTok{ cex.cor }\OperatorTok{*}\StringTok{ }\NormalTok{r)}
+
+\NormalTok{\}}
+
+
+\CommentTok{#frm_ktrain <- read_csv('frmgham2.csv')}
+
+\KeywordTok{pairs}\NormalTok{( }\OperatorTok{~}\NormalTok{TOTCHOL}\OperatorTok{+}\NormalTok{AGE}\OperatorTok{+}\NormalTok{SYSBP}\OperatorTok{+}\NormalTok{DIABP}\OperatorTok{+}\NormalTok{BMI}\OperatorTok{+}\NormalTok{HEARTRTE }\OperatorTok{+}\NormalTok{GLUCOSE}\OperatorTok{+}\NormalTok{CIGPDAY, }\DataTypeTok{data=}\NormalTok{frm_ktrain, }\DataTypeTok{na.action=}\NormalTok{na.omit,}
+
+       \DataTypeTok{lower.panel =}\NormalTok{ panel.smooth,}
+
+       \DataTypeTok{upper.panel =}\NormalTok{ panel.cor)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-4-1.pdf}
+\#\# Correlation Plot Reason for Analysis: We generated a correlation
+plot. The purpose of the correlation plot was to show how much one
+variable is affected by another. The relationship between two variables
+is called their correlation.
+
+Results: From the results of our analysis, it was clear that SYSBP and
+DIASBP are the most highly positively correlated variables in the entire
+dataset.That means if one increased then the other would increase and
+vice-versa. The correlation value was 0.72. However, SYSBP is a better
+variable for predicting cardiovacular health than DIABP. The next
+slightly correlated variables were Age and SysBP which had a low
+correlation value of 0.38. The DIABP and BMI had an almost similar value
+of 0.34. This confirms the assumption that as you grow older, you run a
+slightly higher risk of increasing your SYSBP.
+
+Discussion: Bloop Pressure: A patients Blood Pressure reading is taken
+in two readings. A brief description from the CDC webiste states that
+the first number, called systolic blood pressure, measures the pressure
+in your blood vessels when your heart beats. The second number, called
+diastolic blood pressure, measures the pressure in your blood vessels
+when your heart rests between beats. The general assumption is that as
+one increases the other would consequentially increase. The correlation
+plots confirmed this assumption.
+
+The next slightly correlated variables were Age and SysBP which had a
+low correlation value of 0.38. The DIABP and BMI had an almost similar
+value of 0.34. This confirms the assumption that as you grow older, you
+run a slightly higher risk of increasing your SYSBP. It makes sense
+because older population have higher cases of High Blood pressure as
+opposed to younger populations.
+
+\subsection{PCA FOR KAGGLES DATASET WITH LESS
+VARIABLES}\label{pca-for-kaggles-dataset-with-less-variables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Principal component analysis #Kaggles}
+
+\NormalTok{frm_NCBI <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{'framingham.csv'}\NormalTok{) }\CommentTok{#kaggles}
+
+\NormalTok{res.pca <-}\StringTok{ }\KeywordTok{prcomp}\NormalTok{(}\KeywordTok{na.omit}\NormalTok{(frm_NCBI[,}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\OperatorTok{:}\DecValTok{6}\NormalTok{, }\DecValTok{8}\OperatorTok{:}\DecValTok{14}\NormalTok{)], }\DataTypeTok{center =}\NormalTok{ TRU, }\DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{))}
+
+
+\KeywordTok{fviz_eig}\NormalTok{(res.pca) }\CommentTok{#plot one}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fviz_pca_biplot}\NormalTok{(res.pca) }\CommentTok{#plot two}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fviz_pca_ind}\NormalTok{(res.pca) }\CommentTok{#gives a scatter plot. very messy}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-5-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(res.pca) ##As you can see, principal components 1 and 2 have the highest standard deviation, use them}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Importance of components:
+##                            PC1     PC2      PC3      PC4     PC5     PC6
+## Standard deviation     44.5331 23.5903 12.51630 11.27559 7.90686 6.21363
+## Proportion of Variance  0.6746  0.1893  0.05329  0.04325 0.02127 0.01313
+## Cumulative Proportion   0.6746  0.8639  0.91723  0.96048 0.98175 0.99488
+##                            PC7     PC8     PC9    PC10    PC11    PC12
+## Standard deviation     3.71413 0.99459 0.32717 0.31287 0.16153 0.15499
+## Proportion of Variance 0.00469 0.00034 0.00004 0.00003 0.00001 0.00001
+## Cumulative Proportion  0.99958 0.99991 0.99995 0.99998 0.99999 1.00000
+\end{verbatim}
+
+\section{VARIATION PLOT for VARIANCE \#Kaggles
+DATA}\label{variation-plot-for-variance-kaggles-data}
+
+\section{\texorpdfstring{frm\_NCBI \textless{}-
+read.csv(`framingham.csv') \#Kaggles change to
+this}{frm\_NCBI \textless{}- read.csv(framingham.csv) \#Kaggles change to this}}\label{frm_ncbi---read.csvframingham.csv-kaggles-change-to-this}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#VARIATION PLOT for VARIANCE #Kaggles DATA}
+\CommentTok{#frm_NCBI <- read.csv('framingham.csv') #Kaggles change to this}
+
+\NormalTok{var <-}\StringTok{ }\KeywordTok{get_pca_var}\NormalTok{(res.pca)}
+\KeywordTok{corrplot}\NormalTok{(var}\OperatorTok{$}\NormalTok{cos2, }\DataTypeTok{is.corr=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{PCAforNIH_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{frm_NCBI.clean <-frm_NCBI }\OperatorTok{%>%}\StringTok{ }\KeywordTok{mutate_at}\NormalTok{(}\KeywordTok{vars}\NormalTok{(male,age,education,currentSmoker,cigsPerDay,BPMeds,prevalentStroke,prevalentHyp,diabetes,totChol,sysBP,diaBP,BMI,heartRate,glucose,TenYearCHD) , }\KeywordTok{funs}\NormalTok{(}\KeywordTok{factor}\NormalTok{(.)))}
+\KeywordTok{summary}\NormalTok{(frm_NCBI.clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  male          age       education   currentSmoker   cigsPerDay  
+##  0:2420   40     : 192   1   :1720   0:2145        0      :2145  
+##  1:1820   46     : 182   2   :1253   1:2095        20     : 734  
+##           42     : 180   3   : 689                 30     : 218  
+##           41     : 174   4   : 473                 15     : 210  
+##           48     : 173   NA's: 105                 10     : 143  
+##           39     : 170                             (Other): 761  
+##           (Other):3169                             NA's   :  29  
+##   BPMeds     prevalentStroke prevalentHyp diabetes    totChol    
+##  0   :4063   0:4215          0:2923       0:4131   240    :  85  
+##  1   : 124   1:  25          1:1317       1: 109   220    :  70  
+##  NA's:  53                                         260    :  62  
+##                                                    210    :  61  
+##                                                    232    :  59  
+##                                                    (Other):3853  
+##                                                    NA's   :  50  
+##      sysBP          diaBP           BMI         heartRate   
+##  120    : 107   80     : 262   22.19  :  18   75     : 563  
+##  130    : 102   82     : 152   22.54  :  18   80     : 385  
+##  110    :  96   85     : 137   22.91  :  18   70     : 305  
+##  115    :  89   70     : 135   23.48  :  18   60     : 231  
+##  125    :  88   81     : 131   23.09  :  16   85     : 228  
+##  124    :  84   84     : 122   (Other):4133   (Other):2527  
+##  (Other):3674   (Other):3301   NA's   :  19   NA's   :   1  
+##     glucose     TenYearCHD
+##  75     : 193   0:3596    
+##  77     : 167   1: 644    
+##  73     : 156             
+##  80     : 153             
+##  70     : 152             
+##  (Other):3031             
+##  NA's   : 388
+\end{verbatim}
+
+\subsection{Discussion}\label{discussion-1}
+
+It was interesting to note that for the kaggles dataset that had less
+variables overall and one new variable that predicts the person risks
+for TenYearCHD.Total Cholestrol overall was the most important variable
+in PCA1. SYSBP the most important variable in PCA2 that captured the
+remaining variance that PCA1 did not capture: PCA1 accounts for most of
+the variance. It was also interesting to note that upon adding GLUCOSE
+as a variable like in the entire dataset with all the variables
+considered, glucose was an important predictor for cardiovascular
+diseases. This confrims our assumptions and prevailing knowledge that
+chronic high glucose levels putting you at a higher risk for DIABETES
+AND High Blood Pressure diseases.
+
+
+\end{document}
