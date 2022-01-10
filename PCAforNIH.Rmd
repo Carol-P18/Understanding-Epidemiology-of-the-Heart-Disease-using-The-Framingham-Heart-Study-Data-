@@ -1,0 +1,213 @@
+---
+title: "615 Pre_EDA"
+output:
+  pdf_document: default
+  html_document: default
+group: Akatsuki
+---
+## Load Package & Read the Data
+```{r EVAL = TRUE}
+library(tidyverse)
+
+library(scales) 
+
+library(readr)
+
+library(dplyr)
+
+library(stats)
+
+library(factoextra) # clustering algorithms & visualization
+
+library(corrplot)
+
+library(graphics)
+
+library(cluster)    # clustering algorithms
+
+frm_NCBI <- read.csv('framingham.csv') #kaggles
+frm_ktrain <- read_csv('frmgham2.csv') #NIH
+
+problems(frm_NCBI)
+problems(frm_ktrain)
+```
+##  Description of the Datasets
+The Framingham Heart Dataset
+The Framingham Heart Study is one of the longest ongoing cardiovascular cohort study in the world. It started in 1948 and the initial number of adult subjects was 5,209. The study is now its third generation and was conducted on the inhabitants of the city of Framingham Massachusetts. The results from the study have been used to better understand the epidemiology hypertensive or arteriosclerotic cardiovascular disease. Prevailing knowledge/lifestyle factors pertaining to heart disease such as diet, exercise and common medications such as aspirin. 
+
+1.	The following demographic risk factors were included in the Framingham Heart Dataset:-
+2.	Sex: male or female:
+3.	Age: age of the patient:
+4.	Education: Different education Levels were coded 1 for some high school, 2 for a high school diploma or GED, 3 for some College or vocational school, and 4 for a college degree.
+5.	The data set also includes behavioral risk factors associated with smoking
+CurrentSmoker: If  the patient is a current smoker or not
+CigsPerDay: The number of cigarettes that the person smoked on average in one day.
+6.	Medical history risk factors:
+BPMeds: Whether or not the patient was on blood pressure medication
+PrevalentStroke: Whether or not the patient had previously had a stroke
+PrevalentHyp: Whether or not the patient was hypertensive
+Diabetes: Whether or not the patient had diabetes
+7.	Risk factors from the first physical examination of the patient:
+TotChol: Total cholesterol levels
+SysBP: Systolic blood pressure
+DiaBP: Diastolic blood pressure
+BMI: Body Mass Index
+HeartRate: Heart rate
+Glucose: Glucose level
+TenYearCHD: 10 year risk of coronary heart disease CHD(This extra feature or Variable was only included in the Kaggle Dataset and not the NIH Dataset)
+
+##Principal Component Analysis (PCA)
+Description of the data exploration/analysis
+Principal Component Analysis (PCA)
+A multivariate Analysis begins with having several substantial correlated variables. In such an event, one can use a statistical analysis called Principal Component Analysis (PCA). PCA functions as a dimension-reduction tool that is often used to reduce a large set of variables to a small set that still contains most of the information in the large set. The smaller number of variables in the small set is called principal components. The PCAs are numbered 1,2,3,4….
+The first PCA value generally accounts for as much of the variability in the data as possible, and each succeeding component accounts for as much of the remaining variability as possible.
+
+We did a PCA on The Framingham Heart Datasets that were both obtained from the NIH and Kaggles. Our reason for doing PCA was to find which variables were the most important in the entire dataset: Which variable contributed the most to disease risk all factors considered? After our PCA analysis, we identified that Total Cholestrol levels were the most important variable for this group of people. This can be explained by the diet and lifestyle choices. Foods high in bad cholestrol overall put you one at very high risk for cardiovascular diseases and heart health. 
+
+```{r}
+# Principal component analysis(PCA) #NIH
+
+#frm_ktrain <- read.csv('framingham.csv')
+frm_ktrain <- read_csv('frmgham2.csv')
+
+res.pca <- prcomp(na.omit(frm_ktrain[,c(2:6, 8:14)], center = TRU, scale = TRUE)) #plot1
+
+fviz_eig(res.pca) #plot one
+
+fviz_pca_biplot(res.pca) #plot two
+
+fviz_pca_ind(res.pca) #gives a scatter plot. very messy
+
+summary(res.pca) ##As you can see, principal components 1 and 2 have the highest standard deviation, use them
+
+``` 
+## PCA Discussion
+From our analysis of The Framingham Heart Dataset(NIH):
+The Histogram plot obtained from [fviz_eig(res.pca)] which plots the highest eigenvectors which are the highest PCA shows that PCA1 explains over 60% of the variance in the dataset and subsequently PCA2 explains over %19 and PCA3 explaining the remaining PCAs explaining the remaining variance. 
+
+Summary Importance of PCAs:The summary shows what we expected from the PCA plot1. PCA which is what we picked to explain the most important variables in the Dataset had the highest standard deviation, proportion of variance and cumulative proportion followed PCA2 which had half of these values.
+
+Importance of components:
+                           PC1     PC2     PC3      PC4     PC5     PC6     PC7
+Standard deviation     45.4627 26.5103 22.7142 12.94025 11.4519 9.23998 6.35481
+Proportion of Variance  0.5548  0.1887  0.1385  0.04495  0.0352 0.02292 0.01084
+Cumulative Proportion   0.5548  0.7435  0.8820  0.92692  0.9621 0.98505 0.99589
+                           PC8     PC9    PC10    PC11    PC12
+Standard deviation     3.73987 1.01090 0.46518 0.25779 0.17051
+Proportion of Variance 0.00375 0.00027 0.00006 0.00002 0.00001
+Cumulative Proportion  0.99964 0.99992 0.99997 0.99999 1.00000
+
+Plot2: This plot shows:
+For PCA1: TotalChol is the most important variable to PCA1(Dim2). 
+
+For PCA2:Glucose, SysBp, DiasBp, HeartRate, BMI and CIGPDAY were the most important variables in PCA2(Dim2)
+
+Our reason for doing PCA was to find which variables were the most important in the entire dataset: Which variable contributed the most to disease risk all factors considered? After our PCA analysis, we identified that Total Cholestrol levels were the most important variable for this group of people. This can be explained by the diet and lifestyle choices. Foods high in bad cholestrol overall put you one at very high risk for cardiovascular diseases and heart health. 
+
+```{r}
+
+#VARIATION PLOT for VARIANCE #NIH DATA
+#frm_ktrain <- read_csv('frmgham2.csv') #used this
+#frm_NCBI <- read.csv('framingham.csv') 
+var <- get_pca_var(res.pca)
+corrplot(var$cos2, is.corr=FALSE)
+
+frm_ktrain.clean <-frm_ktrain %>% mutate_at(vars(SEX,CURSMOKE, DIABETES, BPMEDS, educ, PREVCHD, PREVAP, PREVMI, PREVSTRK, PREVHYP, PERIOD, DEATH, 
+                                                  ANGINA, HOSPMI, MI_FCHD, ANYCHD, STROKE, CVD, HYPERTEN) , funs(factor(.)))
+summary(frm_ktrain.clean)
+
+
+```
+##Discussion
+We plotted a different plot so as to better visualize the significance of these variables after a PCA analysis.
+The plot confirms our previous analysis and results where Total Cholestrol levels were identified to be the most important variable for this group of people in regards to PCA1. SysBP and Glucose captured the remaining variance in PCA2 while CIGPERDAY was significant in PCA3 and last of all HeartRate was significant in PCA4. 
+As a rule of thumb, we go with the top two or three variables which capture most of the variance in the dataset. The reason for Total Cholestrol levels being high could be explained by dietary factors for this particular group: Foods high in bad cholestrol overall put you one at very high risk for cardiovascular diseases and heart health. It could be that the consume a diet high in cholestrol and do little to lower it.
+
+
+
+
+```{r}
+
+#my favorite one
+#Panel correlation for NIH Dataset(frm_ktrain)
+#gives correlation between variables
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+
+{
+
+  usr <- par("usr"); on.exit(par(usr))
+
+  par(usr = c(0, 1, 0, 1))
+
+  r <- abs(cor(x, y))
+
+  txt <- format(c(r, 0.123456789), digits = digits)[1]
+
+  txt <- paste0(prefix, txt)
+
+  if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+
+  text(0.5, 0.5, txt, cex = cex.cor * r)
+
+}
+
+
+#frm_ktrain <- read_csv('frmgham2.csv')
+
+pairs( ~TOTCHOL+AGE+SYSBP+DIABP+BMI+HEARTRTE +GLUCOSE+CIGPDAY, data=frm_ktrain, na.action=na.omit,
+
+       lower.panel = panel.smooth,
+
+       upper.panel = panel.cor)
+
+```
+## Correlation Plot
+Reason for Analysis: We generated a correlation plot. The purpose of the correlation plot was to show how much one variable is affected by another. The relationship between two variables is called their correlation. 
+
+Results: From the results of our analysis, it was clear that SYSBP and DIASBP are the most highly positively correlated variables in the entire dataset.That means if one increased then the other would increase and vice-versa. The correlation value was 0.72. However, SYSBP is a better variable for predicting cardiovacular health than DIABP.
+The next slightly correlated variables were Age and SysBP which had a low correlation value of 0.38. The DIABP and BMI had an almost similar value of 0.34. 
+This confirms the assumption that as you grow older, you run a slightly higher risk of increasing your SYSBP. 
+
+
+Discussion: Bloop Pressure: A patients Blood Pressure reading is taken in two readings. A brief description from the CDC webiste states that the first number, called systolic blood pressure, measures the pressure in your blood vessels when your heart beats. The second number, called diastolic blood pressure, measures the pressure in your blood vessels when your heart rests between beats. The general assumption is that as one increases the other would consequentially increase. The correlation plots confirmed this assumption. 
+
+The next slightly correlated variables were Age and SysBP which had a low correlation value of 0.38. The DIABP and BMI had an almost similar value of 0.34. 
+This confirms the assumption that as you grow older, you run a slightly higher risk of increasing your SYSBP. It makes sense because older population have higher cases of High Blood pressure as opposed to younger populations.
+
+##PCA FOR KAGGLES DATASET WITH LESS VARIABLES
+```{r} 
+# Principal component analysis #Kaggles
+
+frm_NCBI <- read.csv('framingham.csv') #kaggles
+
+res.pca <- prcomp(na.omit(frm_NCBI[,c(2:6, 8:14)], center = TRU, scale = TRUE))
+
+
+fviz_eig(res.pca) #plot one
+
+fviz_pca_biplot(res.pca) #plot two
+
+fviz_pca_ind(res.pca) #gives a scatter plot. very messy
+
+summary(res.pca) ##As you can see, principal components 1 and 2 have the highest standard deviation, use them
+
+```
+
+#VARIATION PLOT for VARIANCE #Kaggles DATA
+#frm_NCBI <- read.csv('framingham.csv') #Kaggles change to this
+```{r EVAL = TRUE}
+#VARIATION PLOT for VARIANCE #Kaggles DATA
+#frm_NCBI <- read.csv('framingham.csv') #Kaggles change to this
+
+var <- get_pca_var(res.pca)
+corrplot(var$cos2, is.corr=FALSE)
+
+frm_NCBI.clean <-frm_NCBI %>% mutate_at(vars(male,age,education,currentSmoker,cigsPerDay,BPMeds,prevalentStroke,prevalentHyp,diabetes,totChol,sysBP,diaBP,BMI,heartRate,glucose,TenYearCHD) , funs(factor(.)))
+summary(frm_NCBI.clean)
+
+
+```
+##Discussion
+It was interesting to note that for the kaggles dataset that had less variables overall and one new variable that predicts the person risks for TenYearCHD.Total Cholestrol overall was the most important variable in PCA1. SYSBP the most important variable in PCA2 that captured the remaining variance that PCA1 did not capture: PCA1 accounts for most of the variance. It was also interesting to note that upon adding GLUCOSE as a variable like in the entire dataset with all the variables considered, glucose was an important predictor for cardiovascular diseases. This confrims our assumptions and prevailing knowledge that chronic high glucose levels putting you at a higher risk for DIABETES AND High Blood Pressure diseases. 
+
+
