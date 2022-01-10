@@ -1,0 +1,88 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+## Load Package & Read the Data
+```{r}
+library(tidyverse)
+
+library(scales) 
+
+library(readr)
+
+library(dplyr)
+
+library(stats)
+
+library(factoextra) # clustering algorithms & visualization
+
+library(corrplot)
+
+library(graphics)
+
+library(cluster)    # clustering algorithms
+
+library(ggplot2)
+
+frm_NCBI <- read.csv('framingham.csv') #kaggles
+frm_ktrain <- read_csv('frmgham2.csv') #NIH
+
+problems(frm_NCBI)
+problems(frm_k)
+```
+```{r} 
+# Principal component analysis #Kaggles
+
+frm_NCBI <- read.csv('framingham.csv') #kaggles
+
+res.pca <- prcomp(na.omit(frm_NCBI[,c(2:6, 8:14)], center = TRU, scale = TRUE))
+
+
+fviz_eig(res.pca) #plot one
+
+fviz_pca_biplot(res.pca) #plot two
+
+fviz_pca_ind(res.pca) #gives a scatter plot. very messy
+
+summary(res.pca) ##As you can see, principal components 1 and 2 have the highest standard deviation, use them
+
+```
+```{r}
+
+#VARIATION PLOT for VARIANCE #Kaggles DATA
+#frm_NCBI <- read.csv('framingham.csv') #Kaggles change to this
+
+var <- get_pca_var(res.pca)
+corrplot(var$cos2, is.corr=FALSE)
+
+frm_NCBI.clean <-frm_NCBI %>% mutate_at(vars(male,age,education,currentSmoker,cigsPerDay,BPMeds,prevalentStroke,prevalentHyp,diabetes,totChol,sysBP,diaBP,BMI,heartRate,glucose,TenYearCHD) , funs(factor(.)))
+summary(frm_NCBI.clean)
+
+
+```
+
+
+```{r}
+# Principal component analysis
+
+frm_ktrain <- read.csv('frmgham2.csv')
+
+res.pca <- prcomp(na.omit(frm_ktrain[,c(2:6, 8:14)], center = TRU, scale = TRUE))
+
+
+fviz_eig(res.pca) #plot one
+
+fviz_pca_biplot(res.pca) #plot two
+
+fviz_pca_ind(res.pca) #gives a scatter plot. very messy
+
+summary(res.pca) ##As you can see, principal components 1 and 2 have the highest standard deviation, use them
+
+
+````
+
+
+
